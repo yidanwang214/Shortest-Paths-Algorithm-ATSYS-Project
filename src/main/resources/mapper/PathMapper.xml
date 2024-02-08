@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.adl.path.dao.PathDao">
+    <resultMap id="pathVoMap" type="com.adl.path.bean.PathVo">
+        <result property="batchId" column="BatchId" jdbcType="INTEGER"/>
+        <result property="source" column="Source" jdbcType="VARCHAR"/>
+        <result property="target" column="Destination" jdbcType="VARCHAR"/>
+        <result property="totalNode" column="NodeCount" jdbcType="INTEGER"/>
+        <result property="totalCost" column="TotalCost" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <insert id="saveCombines" parameterType="list">
+        INSERT INTO combination (batch_id, combine_number, combine_cost, path, path_cost, shared_path, shared_path_cost, created_by)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.batchId}, #{item.combineNumber}, #{item.combineCost}, #{item.path}, #{item.pathCost}, #{item.sharedPath}, #{item.sharedPathCost}, #{item.createdBy})
+        </foreach>
+    </insert>
+
+    <insert id="savePaths" parameterType="list">
+        INSERT INTO path (batch_id, source, target, total_node, total_cost, path, created_by)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.batchId}, #{item.source}, #{item.target}, #{item.totalNode}, #{item.totalCost}, #{item.path}, #{item.createdBy})
+        </foreach>
+    </insert>
+
+    <select id="findShortestPaths" statementType="CALLABLE" resultMap="pathVoMap">
+        CALL findShortestPaths (#{sourceName},#{targetNames}, #{combineCount}, #{useLog}, 1);
+    </select>
+
+
+</mapper>

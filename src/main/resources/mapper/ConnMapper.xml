@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.adl.path.dao.ConnDao">
+    <select resultType="com.adl.path.bean.Connection" id="selectConn">
+        select * from connections where id = #{id}
+    </select>
+
+    <select id="listAvailableConn" resultType="com.adl.path.bean.ConnectionExt">
+        SELECT c.id,c.source_device,c.destination_device,c.weight,d1.type as sType, d2.type as dType FROM connections c
+        JOIN devices d1 ON c.source_device=d1.id
+        JOIN devices d2 ON c.destination_device=d2.id
+        WHERE d1.status = 'Operational' AND d2.status = 'Operational'
+    </select>
+</mapper>

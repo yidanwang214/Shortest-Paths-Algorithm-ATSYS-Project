@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Shortest Paths & Combines</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 50px;
+        }
+		h1 {
+			font-size: 2em;
+			margin-top: -20px;
+		}
+
+		#inputForm {
+			padding: 0px;
+			border-radius: 0px;
+			max-width: 500px;
+			margin: 30px auto;
+		}
+		label, input {
+			font-size: 1em;
+			padding: 8px;
+			margin: 7px 0;
+		}
+		.input-group {
+			display: flex;
+			justify-content: flex-start;
+			align-items: center;
+			margin-bottom: 0px;
+		}
+		.input-group2 {
+			display: flex;
+			justify-content: flex-start;
+			align-items: center;
+			margin: 0px 32px 0px 0px;
+		}
+		.input-group3 {
+			display: flex;
+			justify-content: flex-start;
+			align-items: center;
+			margin: 0px 38px 0px 0px;
+		}
+		.input-group label {
+			flex-basis: 30%;
+		}
+		.input-group input {
+			flex-basis: 55%; 
+		}
+		input[type="checkbox"] {
+			transform: scale(1.2);
+			margin: 0px 10px 0px 10px;
+		}
+		.checkbox-group {
+			display: flex;
+			justify-content: center; 
+			align-items: center;
+			margin-left: 55px; 
+		}
+		.checkbox-container1 {
+			margin: 0px 0px 0px 0px;
+			display: inline-block;
+			vertical-align: middle;
+		}
+
+		.checkbox-container1 input {
+			margin: 0px 0px 0px 180px;
+			display: inline-block;
+			vertical-align: middle;
+		}
+		
+		.checkbox-container2 input {
+			margin: 0px 0px 0px 0px;
+			display: inline-block;
+			vertical-align: middle;
+
+		}
+        button {
+            background-color: #333333;
+            border: none;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 10px 0;
+			padding: 10px 30px;
+			min-width: 120px;
+        }
+        button:hover {
+            background-color: #555555;
+        }
+		.button-container {
+			display: flex;
+			justify-content: center;
+			align-items: center; 
+			margin: 0px 0px 0px 50px;
+		}
+		.path-cell {
+			max-width: 1000px;
+			word-wrap: break-word;
+			overflow: hidden;
+			white-space: normal;
+		}
+		.path-cell2 {
+			max-width: 1000px;
+			word-wrap: break-word;
+			overflow: hidden;
+			white-space: normal;
+		}
+		#resultsTable {
+			padding: 20px;
+			border-radius: 8px;
+			width: 100%;
+			margin: 0px 0;
+		}
+		.text-left {
+			text-align: left;
+		}
+		table {
+			table-layout: auto;
+			border-collapse: collapse;
+			font-size: 0.7em;
+			margin: 0 auto;
+		}
+
+		th, td {
+			padding: 10px;
+			border: 1px solid #ddd;
+			text-align: center;
+		}
+		th {
+			background-color: #f2f2f2;
+			font-size: 1.2em;
+		}
+
+		tr:hover {
+			background-color: #e6e6e6;
+		}
+		.narrow-input{			
+			display: flex;
+			margin: 0px 0px 0px 0px;
+			width: 50%;
+			max-width: 50%;
+		}
+		.narrow-input1{	
+		
+			display: flex;
+			margin: 0px 0px 0px 160px;
+			width: 100%;
+			max-width: 100%;
+		}
+		.narrow-input2 input{			
+			display: flex;
+			margin: 0px 0px 0px 0px;
+			width: 200%;
+			max-width: 200%;
+			background-color: rgba(255, 255, 255, 0.9);
+			border-color: rgba(0, 0, 0, 0.4);
+			border-width: 1px;
+		}
+		.narrow-input3{			
+			display: flex;
+			margin: 0px 0px 0px 48px;
+			width: 100%;
+			max-width: 100%;
+		}
+		.narrow-input4 input{			
+			text-align: left;
+			display: flex;
+			margin: 0px 0px 0px 0px;
+			width: 200%;
+			max-width: 200%;
+			background-color: rgba(255, 255, 255, 0.9);
+			border-color: rgba(0, 0, 0, 0.4);
+			border-width: 1px;
+		}
+		.narrow-input5 input{			
+			text-align: left;
+			display: flex;
+			margin: 0px 0px 0px 50px;
+			width: 40%;
+			max-width: 40%;
+		}
+input[type="radio"] {
+    display: none;
+}
+
+input[type="radio"] + label {
+    position: relative;
+    padding-left: 30px;
+    cursor: pointer;
+}
+
+input[type="radio"] + label:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 7px;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #333333;
+    border-radius: 50%;
+}
+
+input[type="radio"]:checked + label:before {
+    background-color: #333333;
+}
+.font1 {
+    font-size: 0.8em;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #ffffff;
+    padding: 10px;
+    margin-left: 10px;
+    margin-top: 10px;
+    z-index: 1;
+}
+</style>
+
+
+
+</head>
+<body>
+	<header>
+		<h1 style="text-align:center;">Find Shortest Paths & Combines</h1>
+	</header>
+	<form id="inputForm">
+
+		<div class="input-group">
+			<label for="sourceName">Source Name:</label>
+			<input type="text" id="sourceName" name="sourceName" placeholder="Enter Source Name" value="SOURCE_6">
+		</div>
+		
+		<div class="input-group">
+			<label for="targetNames">Target Names:<br/>(Comma Separated)</label>
+			<input type="text" id="targetNames" name="targetNames" placeholder="Enter Target Names" value="DEST1,DEST4,DEST5,DEST6">
+		</div>
+		<div class="input-group">
+			<div class="input-group3">
+				<label for="targetNames">P/C Quantity:</label>
+			</div>
+			<div class="narrow-input5">
+				<input type="number" id="quantity" name="quantity" placeholder="Enter Max P/C" value="4">
+			</div>
+			<div class="input-group2">		
+				<input type="radio" id="path" name="radioGroup" value="path" checked>
+				<label for="path">Path</label>
+				<input type="radio" id="combine" name="radioGroup" value="combine">
+				<label for="combine">Combination</label>
+			</div>
+	
+		</div>
+
+		<div class="checkbox-group">
+			<div class="checkbox-container1">
+				<input type="checkbox" id="dbAlgorithm" name="dbAlgorithm" value="false">
+				<label for="dbAlgorithm">DbAlgorithm</label>
+			</div>
+			<div></div>
+			<div class="checkbox-container2">
+				<input type="checkbox" id="useLog" name="useLog" value="false">
+				<label for="useLog">UseLog</label>
+			</div>
+		</div>
+		<div class="button-container">
+			<button type="button" onclick="fetchData()">Submit</button>
+		</div>
+	</form>
+
+	<div id="resultsTable">
+	<div id="resultsTable2">
+    </div>
+    </div>
+    <script>
+window.onload = function() {
+    const dbCheckbox = document.getElementById('dbAlgorithm');
+    const useLogCheckbox = document.getElementById('useLog');
+	const combineRadio = document.getElementById('combine');
+	const pathRadio = document.getElementById('path');
+
+    function toggleCheckbox() {
+        if (combineRadio.checked) {
+            dbCheckbox.checked = '';
+            dbCheckbox.disabled = true;
+        } else {
+            dbCheckbox.disabled = false;
+        }
+        if (dbCheckbox.checked) {
+            useLogCheckbox.disabled = false;
+        } else {
+            useLogCheckbox.checked = '';
+            useLogCheckbox.disabled = true;
+        }
+    }
+
+    toggleCheckbox();
+    dbCheckbox.addEventListener('change', toggleCheckbox);
+    combineRadio.addEventListener('change', toggleCheckbox);
+    pathRadio.addEventListener('change', toggleCheckbox);
+};
+
+        function fetchData() {
+            const sourceName = document.getElementById('sourceName').value;
+            const targetNames = document.getElementById('targetNames').value;
+            const quantity = document.getElementById('quantity').value;
+			const type = document.querySelector('input[name="radioGroup"]:checked').value;
+            const dbAlgorithm = document.getElementById('dbAlgorithm').checked ? "true" : "false";
+            const useLog = document.getElementById('useLog').checked ? "true" : "false";
+            let url = window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
+            if(sourceName==''){
+            	showMsg("sourceName can't be empty");
+            	return;
+			}
+			if(targetNames==''){
+            	showMsg("targetNames can't be empty");
+            	return;
+			}
+			if(quantity<1){
+            	showMsg("quantity must be an positive number");
+            	return;
+			}
+			if(type=='combine') {
+				url+=`/path/findShortestCombines/${sourceName}/${targetNames}/${quantity}`;
+
+			}else{
+				url+=`/path/findShortestPaths/${sourceName}/${targetNames}/${quantity}/${dbAlgorithm}/${useLog}`;
+			}
+            
+			fetch(url, {
+				method: 'GET',
+				headers: {
+					'Accept': 'application/json'
+				}
+				})
+				.then(response => {
+					if (!response.ok) {
+						//throw new Error('Network response was not ok');
+					}
+					return response.json();
+				})
+                .then(data => {
+					if(type=='combine'){
+						displayResults4Combine(data);
+					}else{
+						displayResults4Path(data);
+					}
+                })
+                .catch(error => {
+					const errorData = JSON.parse(xhr.responseText);
+					console.error("Error occurred:", errorData.message, "Missing parameter:", errorData.missing_parameter);
+                    console.error('Error fetching data:', error);
+                });
+        }
+		function showMsg(msg){
+			const resultsDiv = document.getElementById('resultsTable');
+			resultsDiv.innerHTML = `<p style="text-align: center;">Error: ${msg}</p>`;
+		}
+        function displayResults4Path(response) {
+			const data = response.data;
+			const resultsDiv = document.getElementById('resultsTable');
+			if(response.code !== 1) {
+				resultsDiv.innerHTML = `<p style="text-align: center;">Error: ${response.msg}</p>`;
+				return;
+			}
+			const batchMsg='<div class="font1">batchId:'+data[0][0].batchId+'</div>';
+			let tableHTML = `
+				<table>
+					<thead>
+						<tr>
+							<th>Destination</th>
+							<th>#</th>
+							<th>Path</th>
+							<th>NodeCount</th>
+							<th>TotalCost</th>
+						</tr>
+					</thead>
+					<tbody>
+			`;
+				data.forEach((item, index) => {
+					item.forEach((item2, index2) => {
+						tableHTML += `
+							<tr>
+								${index2 === 0 ? `<td class="multi-row" rowspan="${item.length}">${item2.target}</td>` : ''}
+								<td>${index2 + 1}</td>
+								<td class="text-left path-cell2">${item2.path}</td>
+								<td>${item2.totalNode}</td>
+								<td>${item2.totalCost}</td>
+							</tr>
+						`;
+					});
+				});
+			tableHTML += '</tbody></table>';
+			resultsDiv.innerHTML = batchMsg+'<br/>'+tableHTML;
+		}
+		
+		function displayResults4Combine(response) {
+			const data = response.data;
+			const resultsDiv = document.getElementById('resultsTable');
+			if(response.code !== 1) {
+				resultsDiv.innerHTML = `<p style="text-align: center;">Error: ${response.msg}</p>`;
+				return;
+			}
+			const batchMsg='<div class="font1">batchId:'+data[0][0].batchId+'</div>';
+			let tableHTML = `
+				<table>
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>SubPath</th>
+							<th>SubPathCost</th>
+							<th>OverallCost</th>
+						</tr>
+					</thead>
+					<tbody>
+			`;
+			data.forEach((item, index) => {
+				item.forEach((item2, index2) => {
+					tableHTML += `
+						<tr>
+							${index2 === 0 ? `<td class="multi-row" rowspan="${item.length}">${index+1}</td>` : ''}
+							<td class="single-row text-left path-cell">${item2.formattedPath}</td>
+							<td class="single-row">${item2.pathCost}</td>
+							${index2 === 0 ? `<td class="multi-row" rowspan="${item.length}">${item2.combineCost}</td>` : ''}
+						</tr>
+					`;
+				});
+			});
+
+			tableHTML += '</tbody></table>';
+			resultsDiv.innerHTML = batchMsg+'<br/>'+tableHTML;
+		}
+    </script>
+	
+	
+</body>
+</html>

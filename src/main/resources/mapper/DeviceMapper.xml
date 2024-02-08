@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.adl.path.dao.DeviceDao">
+    <select id="listAvailableDevices" resultType="com.adl.path.bean.Device">
+        SELECT id,name,type,cost FROM devices WHERE status = 'Operational'
+    </select>
+    <select id="listDeviceByNames" resultType="com.adl.path.bean.Device">
+        SELECT id,name,type,cost FROM devices WHERE status = 'Operational'
+        <foreach collection="list" item="item" separator=",">
+            (#{item.batchId}, #{item.combineNumber}, #{item.combineCost}, #{item.path}, #{item.pathCost}, #{item.sharedPath}, #{item.sharedPathCost}, #{item.createdBy})
+        </foreach>
+    </select>
+</mapper>

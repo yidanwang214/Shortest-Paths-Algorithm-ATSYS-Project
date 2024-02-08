@@ -1,0 +1,3 @@
+Collaborated with teammates to implement the Uniform Cost Search Algorithm generating 5 shortest paths from source to destination. Utilized Java, Python, and MySQL as backend tools, and JavaScript/CSS/HTML as frontend tools. Deployed the project on Alibaba Cloud, providing database, API UI, and algorithm UI to cater to the diverse needs of various user groups.
+
+You can explore the project by accessing http://47.106.108.49/shortestPath/
